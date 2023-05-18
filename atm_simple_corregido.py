@@ -10,6 +10,10 @@ from datetime import datetime
 import getpass
 class Cajero:
 
+    MAX_DEP = 3000
+    MIN_DEP = 0
+    MAX_RET = 3000
+    MIN_RET = 1
     prendido = True
     logueado = False
 
@@ -105,10 +109,10 @@ class Cajero:
             print("No se encontró el usuario\n")
 
     def depositar(self, persona, dep):
-        #dep = input("Ingrese el monto a depositar: ")
-        if  0 >= int(dep):
-            print("Ingrese depositos positivos ")
-        elif int(persona.getDepositoTotal())+int(dep) > 3000:
+        dep = input("Ingrese el monto a depositar: ")
+        if  self.MIN_DEP >= int(dep):
+            print("Ingrese depositos mayores a los mínimos ")
+        elif int(persona.getDepositoTotal())+int(dep) > self.MAX_DEP:
             print("Usted excede la cantidad máxima de deposito por día")
         else:
             persona.setSaldo(str(int(persona.getSaldo())+int(dep)))
@@ -118,11 +122,11 @@ class Cajero:
 
     def retirar(self, persona):
         ret = input("Ingrese el monto a retirar: ")
-        if  0 >= int(ret):
-            print("Ingrese retiros positivos ")
+        if  self.MIN_RET >= int(ret):
+            print("Ingrese retiros mínimos válidos ")
         elif int(ret) > int(persona.getSaldo()):
             print("Usted no puede retirar más del saldo disponible")
-        elif int(persona.getRetiroTotal())+int(ret) > 3000:
+        elif int(persona.getRetiroTotal())+int(ret) > self.MAX_RET:
             print("Usted excede la cantidad máxima de retiro por día")
         else:
             persona.setSaldo(int(persona.getSaldo())-int(ret))
@@ -133,8 +137,8 @@ class Cajero:
 
     def ver(self, persona):
         print(f"Su saldo es: {persona.getSaldo()}")
-        print(f"Hoy puede depositar hasta: {3000-int(persona.getDepositoTotal())}")
-        print(f"Hoy puede retirar hasta: {3000-int(persona.getRetiroTotal())}")
+        print(f"Hoy puede depositar hasta: {self.MAX_DEP-int(persona.getDepositoTotal())}")
+        print(f"Hoy puede retirar hasta: {self.MAX_RET-int(persona.getRetiroTotal())}")
         input("Presione ENTER para continuar")
         
     def guardar(self, persona):
