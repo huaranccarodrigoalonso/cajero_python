@@ -104,8 +104,8 @@ class Cajero:
         if self.logueado != True:
             print("No se encontró el usuario\n")
 
-    def depositar(self, persona):
-        dep = input("Ingrese el monto a depositar: ")
+    def depositar(self, persona, dep):
+        #dep = input("Ingrese el monto a depositar: ")
         if  0 >= int(dep):
             print("Ingrese depositos positivos ")
         elif int(persona.getDepositoTotal())+int(dep) > 3000:
