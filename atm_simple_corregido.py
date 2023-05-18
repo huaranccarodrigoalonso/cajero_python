@@ -6,6 +6,8 @@ Created on Mon May 15 16:05:23 2023
 
 from os import system
 from Persona import Persona
+from datetime import datetime
+import getpass
 class Cajero:
 
     prendido = True
@@ -84,8 +86,12 @@ class Cajero:
                 if aux_name == aux_persona.getName():
 
                     while intentos <= 3:
-                        aux_password = input("Ingrese contraseña: ")
+                        aux_password = getpass.getpass("Ingrese contraseña: ")
                         if aux_password == aux_persona.getPassword():
+                            if aux_persona.getDia() != datetime.now().date():
+                                aux_persona.setDia(datetime.now().date())
+                                aux_persona.setDepositoTotal(0)
+                                aux_persona.setRetiroTotal(0)
                             self.logueado = True
                             datos.close()
                             return aux_persona
@@ -146,7 +152,7 @@ class Cajero:
         for linea in datos_persona:
             i = linea.split(" ")
             if (i[0] == persona.getName()):
-                datos.write(str(persona.getName())+" "+str(persona.getPassword())+" "+str(persona.getDepositoTotal())+" "+str(persona.getRetiroTotal())+" "+str(persona.getSaldo())+" "+str(persona.getDia()))
+                datos.write(str(persona.getName())+" "+str(persona.getPassword())+" "+str(persona.getDepositoTotal())+" "+str(persona.getRetiroTotal())+" "+str(persona.getSaldo())+" "+str(persona.getDia())+"\n")
             else:
                 datos.write(" ".join(i))
         datos_persona.clear() #limpiando para evitar malos usos
